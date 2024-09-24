@@ -1,6 +1,7 @@
 package com.ismailmesutmujde.kotlinworkmanagerapp
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
@@ -25,6 +26,13 @@ class MainActivity : AppCompatActivity() {
                 .setInitialDelay(10, TimeUnit.SECONDS)
                 .build()
             WorkManager.getInstance(this).enqueue(request)
+
+            WorkManager.getInstance(this).getWorkInfoByIdLiveData(request.id)
+                .observe(this){
+                    val state = it.state.name
+                    Log.e("Background Process Result", state)
+
+                }
 
         }
 
