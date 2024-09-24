@@ -7,6 +7,10 @@ android {
     namespace = "com.ismailmesutmujde.kotlinworkmanagerapp"
     compileSdk = 34
 
+    buildFeatures {
+        viewBinding = true
+    }
+
     defaultConfig {
         applicationId = "com.ismailmesutmujde.kotlinworkmanagerapp"
         minSdk = 24
@@ -45,4 +49,6 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
 }
