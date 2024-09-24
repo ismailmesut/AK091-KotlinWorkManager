@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.work.Constraints
 import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
 import com.ismailmesutmujde.kotlinworkmanagerapp.databinding.ActivityMainBinding
 import java.util.concurrent.TimeUnit
@@ -23,6 +24,7 @@ class MainActivity : AppCompatActivity() {
 
         bindingMain.buttonMake.setOnClickListener {
 
+            /*
             val workingCondition = Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build()
@@ -30,6 +32,13 @@ class MainActivity : AppCompatActivity() {
             val request = OneTimeWorkRequestBuilder<MyWorker>()
                 .setInitialDelay(10, TimeUnit.SECONDS)
                 .setConstraints(workingCondition)  // Disconnect the internet from the emulator and try it
+                .build()
+            WorkManager.getInstance(this).enqueue(request)
+
+             */
+
+            val request = PeriodicWorkRequestBuilder<MyWorkerNotification>(15,TimeUnit.MINUTES)
+                .setInitialDelay(10,TimeUnit.SECONDS)
                 .build()
             WorkManager.getInstance(this).enqueue(request)
 
