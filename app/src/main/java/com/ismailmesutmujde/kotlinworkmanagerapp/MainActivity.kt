@@ -3,6 +3,8 @@ package com.ismailmesutmujde.kotlinworkmanagerapp
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.work.Constraints
+import androidx.work.NetworkType
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.ismailmesutmujde.kotlinworkmanagerapp.databinding.ActivityMainBinding
@@ -21,9 +23,13 @@ class MainActivity : AppCompatActivity() {
 
         bindingMain.buttonMake.setOnClickListener {
 
+            val workingCondition = Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build()
 
             val request = OneTimeWorkRequestBuilder<MyWorker>()
                 .setInitialDelay(10, TimeUnit.SECONDS)
+                .setConstraints(workingCondition)  // Disconnect the internet from the emulator and try it
                 .build()
             WorkManager.getInstance(this).enqueue(request)
 
