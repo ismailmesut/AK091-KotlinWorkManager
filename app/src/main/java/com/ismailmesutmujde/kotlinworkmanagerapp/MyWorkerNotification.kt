@@ -21,12 +21,23 @@ class MyWorkerNotification (appContext: Context, workerParams: WorkerParameters)
         val builder: NotificationCompat.Builder
         val notificationManager = applicationContext.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         val intent = Intent(applicationContext, MainActivity::class.java)
+
+        /*
         val goToIntent = PendingIntent.getActivity(
             applicationContext,
             1,
             intent,
             PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE
-        )
+        )*/
+
+
+        var goToIntent: PendingIntent? = null
+        goToIntent = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+            PendingIntent.getActivity(applicationContext, 1,intent, PendingIntent.FLAG_MUTABLE)
+        } else {
+            PendingIntent.getActivity(applicationContext, 1,intent, PendingIntent.FLAG_IMMUTABLE)
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             val channelId = "channelId"
             val channelName = "channelName"
@@ -48,7 +59,6 @@ class MyWorkerNotification (appContext: Context, workerParams: WorkerParameters)
                 .setSmallIcon(R.drawable.image)
                 .setContentIntent(goToIntent)
                 .setAutoCancel(true)
-
 
         } else {
             builder = NotificationCompat.Builder(applicationContext)
